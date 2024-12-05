@@ -1,5 +1,5 @@
 parameters:
-    level: 8 # not yet ready for all the `mixed` checks
+    level: 8
     paths:
         - src
         - tests
