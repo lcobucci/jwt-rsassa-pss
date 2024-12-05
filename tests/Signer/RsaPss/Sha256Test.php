@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Lcobucci\JWT\Tests\Signer\RsaPss;
+namespace Lcobucci\JWTRsaPss\Tests\Signer\RsaPss;
 
 use Lcobucci\JWT\Signer\InvalidKeyProvided;
 use Lcobucci\JWT\Signer\Key\InMemory;
-use Lcobucci\JWT\Signer\RsaPss;
-use Lcobucci\JWT\Signer\RsaPss\Sha256;
+use Lcobucci\JWTRsaPss\Signer\RsaPss;
+use Lcobucci\JWTRsaPss\Signer\RsaPss\Sha256;
 use PHPUnit\Framework\Attributes as PHPUnit;
 
 #[PHPUnit\CoversClass(Sha256::class)]

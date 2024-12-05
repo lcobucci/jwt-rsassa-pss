@@ -1,9 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Lcobucci\JWT\Signer;
+namespace Lcobucci\JWTRsaPss\Signer;
 
 use Lcobucci\JWT\Signer;
+use Lcobucci\JWT\Signer\InvalidKeyProvided;
+use Lcobucci\JWT\Signer\Key;
 use phpseclib3\Crypt\PublicKeyLoader;
 use phpseclib3\Crypt\RSA;
 use phpseclib3\Crypt\RSA\PrivateKey;
@@ -13,7 +15,7 @@ use phpseclib3\Exception\NoKeyLoadedException;
 use function assert;
 use function is_string;
 
-abstract class RsaPss implements Signer
+abstract readonly class RsaPss implements Signer
 {
     private const MINIMUM_KEY_LENGTH = 2048;
 
@@ -22,7 +24,7 @@ abstract class RsaPss implements Signer
         try {
             $private = PublicKeyLoader::loadPrivateKey($key->contents(), $key->passphrase());
         } catch (NoKeyLoadedException $e) {
-            throw new InvalidKeyProvided('It was not possible to parse your key, reason: ' . $e->getMessage());
+            throw new InvalidKeyProvided('It was not possible to parse your key, reason: ' . $e->getMessage(), 0, $e);
         }
 
         if (! $private instanceof PrivateKey) {
@@ -49,7 +51,7 @@ abstract class RsaPss implements Signer
         try {
             $public = PublicKeyLoader::loadPublicKey($key->contents());
         } catch (NoKeyLoadedException $e) {
-            throw new InvalidKeyProvided('It was not possible to parse your key, reason: ' . $e->getMessage());
+            throw new InvalidKeyProvided('It was not possible to parse your key, reason: ' . $e->getMessage(), 0, $e);
         }
 
         if (! $public instanceof PublicKey) {

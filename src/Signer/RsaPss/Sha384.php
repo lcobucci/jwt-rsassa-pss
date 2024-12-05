@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Lcobucci\JWT\Signer\RsaPss;
+namespace Lcobucci\JWTRsaPss\Signer\RsaPss;
 
-use Lcobucci\JWT\Signer\RsaPss;
+use Lcobucci\JWTRsaPss\Signer\RsaPss;
 
-final class Sha384 extends RsaPss
+final readonly class Sha384 extends RsaPss
 {
     public function algorithmId(): string
     {
