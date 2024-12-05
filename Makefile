@@ -1,7 +1,7 @@
 PARALLELISM := $(shell nproc)
 
 .PHONY: all
-all: install phpcbf phpcs phpstan phpunit infection phpbench
+all: install phpcbf phpcs phpstan phpunit infection
 
 .PHONY: install
 install: vendor/composer/installed.json

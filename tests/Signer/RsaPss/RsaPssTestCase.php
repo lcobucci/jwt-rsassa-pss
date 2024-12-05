@@ -66,7 +66,8 @@ abstract class RsaPssTestCase extends TestCase
     public function signShouldRaiseAnExceptionWhenKeyIsNotParseable(): void
     {
         $this->expectException(InvalidKeyProvided::class);
-        $this->expectExceptionMessage('It was not possible to parse your key, reason: ');
+        $this->expectExceptionMessage('It was not possible to parse your key, reason: Unable to read key');
+        $this->expectExceptionCode(0);
 
         $this->algorithm()->sign('testing', InMemory::plainText('blablabla'));
     }
@@ -78,6 +79,7 @@ abstract class RsaPssTestCase extends TestCase
         $this->expectExceptionMessage(
             'The type of the provided key is not "RSA", "phpseclib3\Crypt\EC\PrivateKey" provided',
         );
+        $this->expectExceptionCode(0);
 
         $this->algorithm()->sign('testing', self::$ecdsaKeys['private']);
     }
@@ -87,6 +89,7 @@ abstract class RsaPssTestCase extends TestCase
     {
         $this->expectException(InvalidKeyProvided::class);
         $this->expectExceptionMessage('Key provided is shorter than 2048 bits, only 512 bits provided');
+        $this->expectExceptionCode(0);
 
         $this->algorithm()->sign('testing', self::$rsaKeys['private_short']);
     }
@@ -110,7 +113,8 @@ abstract class RsaPssTestCase extends TestCase
     public function verifyShouldRaiseAnExceptionWhenKeyIsNotParseable(): void
     {
         $this->expectException(InvalidKeyProvided::class);
-        $this->expectExceptionMessage('It was not possible to parse your key, reason:');
+        $this->expectExceptionMessage('It was not possible to parse your key, reason: Unable to read key');
+        $this->expectExceptionCode(0);
 
         $this->algorithm()->verify('testing', 'testing', InMemory::plainText('blablabla'));
     }
@@ -122,6 +126,7 @@ abstract class RsaPssTestCase extends TestCase
         $this->expectExceptionMessage(
             'The type of the provided key is not "RSA", "phpseclib3\Crypt\EC\PublicKey" provided',
         );
+        $this->expectExceptionCode(0);
 
         $this->algorithm()->verify('testing', 'testing', self::$ecdsaKeys['public1']);
     }

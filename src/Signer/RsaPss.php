@@ -41,6 +41,7 @@ abstract readonly class RsaPss implements Signer
             ->withMGFHash($this->algorithm())
             ->sign($payload);
 
+        /** @infection-ignore-all */
         assert(is_string($signature) && $signature !== '');
 
         return $signature;

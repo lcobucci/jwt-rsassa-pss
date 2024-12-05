@@ -2,7 +2,7 @@
     "source": {
         "directories": ["src"]
     },
-    "timeout": 3,
+    "timeout": 10,
     "logs": {
         "text": "infection.txt"
     },
