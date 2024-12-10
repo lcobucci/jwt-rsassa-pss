@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Lcobucci\JWTRsaPss\Tests\Signer\RsaPss;
+namespace Lcobucci\JWT\Tests\Signer\RsaPss;
 
 use Lcobucci\JWT\Signer\InvalidKeyProvided;
 use Lcobucci\JWT\Signer\Key\InMemory;
-use Lcobucci\JWTRsaPss\Signer\RsaPss;
-use Lcobucci\JWTRsaPss\Tests\Keys;
+use Lcobucci\JWT\Signer\RsaPss;
+use Lcobucci\JWT\Tests\Keys;
 use phpseclib3\Crypt\PublicKeyLoader;
 use phpseclib3\Crypt\RSA;
 use PHPUnit\Framework\Attributes as PHPUnit;

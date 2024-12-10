@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Lcobucci\JWTRsaPss\Signer\RsaPss;
+namespace Lcobucci\JWT\Signer\RsaPss;
 
-use Lcobucci\JWTRsaPss\Signer\RsaPss;
+use Lcobucci\JWT\Signer\RsaPss;
 
 final readonly class Sha384 extends RsaPss
 {

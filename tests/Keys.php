@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Lcobucci\JWTRsaPss\Tests;
+namespace Lcobucci\JWT\Tests;
 
 use Lcobucci\JWT\Signer\Key;
 use PHPUnit\Framework\Attributes as PHPUnit;

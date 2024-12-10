@@ -3,7 +3,6 @@
     xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
     colors="true"
     beStrictAboutOutputDuringTests="true"
-    beStrictAboutTodoAnnotatedTests="true"
     beStrictAboutChangesToGlobalState="true"
     beStrictAboutCoverageMetadata="true"
     requireCoverageMetadata="true"
@@ -25,7 +24,7 @@
 
     <source>
         <include>
-            <directory suffix=".php">src</directory>
+            <directory>src</directory>
         </include>
     </source>
 </phpunit>

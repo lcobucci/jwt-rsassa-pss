@@ -1,11 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Lcobucci\JWTRsaPss\Signer;
+namespace Lcobucci\JWT\Signer;
 
 use Lcobucci\JWT\Signer;
-use Lcobucci\JWT\Signer\InvalidKeyProvided;
-use Lcobucci\JWT\Signer\Key;
 use phpseclib3\Crypt\PublicKeyLoader;
 use phpseclib3\Crypt\RSA;
 use phpseclib3\Crypt\RSA\PrivateKey;
