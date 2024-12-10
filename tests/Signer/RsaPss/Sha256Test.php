@@ -29,4 +29,9 @@ final class Sha256Test extends RsaPssTestCase
     {
         return 'sha256';
     }
+
+    protected function getE2eTokenFilePath(): string
+    {
+        return __DIR__ . '/../../_tokens/token1_PS256.txt';
+    }
 }

@@ -24,14 +24,14 @@
         "phpunit/phpunit": "^11.5.0"
     },
     "autoload": {
-        "classmap": [
-            "src/"
-        ]
+        "psr-4": {
+            "Lcobucci\\JWT\\": "src"
+        }
     },
     "autoload-dev": {
-        "classmap": [
-            "tests/"
-        ]
+        "psr-4": {
+            "Lcobucci\\JWT\\Tests\\": "tests"
+        }
     },
     "config": {
         "allow-plugins": {
