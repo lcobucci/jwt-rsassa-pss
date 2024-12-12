@@ -8,11 +8,12 @@ The JWT algorithms PS256, PS384 and PS512 are using a modified padding mechanism
 The RSASSA-PSS ([probabilistic signature scheme]) padding algorithm suggests it's security is mathematically proven to relate to the [RSA problem].
 
 However, this statement alone should not influence your judgement when asked to choose a signature algorithm for a JWT that you create.
-Consider using an elliptic curve signature instead.
+Consider using an [elliptic curve signature] instead.
 If however you are required to consume a token signed with a PS algorithm, you have no choice.
 
 [probabilistic signature scheme]: https://en.wikipedia.org/wiki/Probabilistic_signature_scheme
 [RSA problem]: https://en.wikipedia.org/wiki/RSA_problem
+[elliptic curve signature]: https://www.scottbrady91.com/jose/jwts-which-signing-algorithm-should-i-use
 
 ## Implementation details
 

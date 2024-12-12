@@ -3,17 +3,26 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Tests\Signer\RsaPss;
 
+use DateTimeImmutable;
+use Lcobucci\JWT\JwtFacade;
 use Lcobucci\JWT\Signer\InvalidKeyProvided;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Signer\RsaPss;
 use Lcobucci\JWT\Tests\Keys;
+use Lcobucci\JWT\Validation\Constraint\LooseValidAt;
+use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use phpseclib3\Crypt\PublicKeyLoader;
 use phpseclib3\Crypt\RSA;
 use PHPUnit\Framework\Attributes as PHPUnit;
 use PHPUnit\Framework\TestCase;
+use Psr\Clock\ClockInterface;
 
 use function assert;
-use function openssl_error_string;
+use function file_get_contents;
+use function PHPUnit\Framework\assertIsString;
+use function PHPUnit\Framework\assertNotSame;
+use function PHPUnit\Framework\assertSame;
+use function trim;
 
 abstract class RsaPssTestCase extends TestCase
 {
@@ -25,12 +34,27 @@ abstract class RsaPssTestCase extends TestCase
 
     abstract protected function signatureAlgorithm(): string;
 
-    #[PHPUnit\After]
-    final public function clearOpenSSLErrors(): void
+    abstract protected function getE2eTokenFilePath(): string;
+
+    /** @return non-empty-string */
+    private function getJwtContents(string $filename): string
     {
-        // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedWhile
-        while (openssl_error_string()) {
-        }
+        $contents = file_get_contents($filename);
+        assertIsString($contents);
+        $tokenstring = trim($contents);
+        assertNotSame('', $tokenstring);
+
+        return $tokenstring;
+    }
+
+    private function getCurrentClock(): ClockInterface
+    {
+        return new class implements ClockInterface {
+            public function now(): DateTimeImmutable
+            {
+                return new DateTimeImmutable();
+            }
+        };
     }
 
     #[PHPUnit\Test]
@@ -52,6 +76,23 @@ abstract class RsaPssTestCase extends TestCase
         $signature = $this->algorithm()->sign($payload, self::$rsaKeys['private']);
 
         $publicKey = PublicKeyLoader::loadPublicKey(self::$rsaKeys['public']->contents());
+        assert($publicKey instanceof RSA\PublicKey);
+
+        self::assertTrue(
+            $publicKey
+                ->withHash($this->signatureAlgorithm())
+                ->withMGFHash($this->signatureAlgorithm())
+                ->verify($payload, $signature),
+        );
+    }
+
+    #[PHPUnit\Test]
+    public function signShouldReturnAValidOpensslSignatureWithPssKey(): void
+    {
+        $payload   = 'testing';
+        $signature = $this->algorithm()->sign($payload, self::$rsaKeys['private_rsapss']);
+
+        $publicKey = PublicKeyLoader::loadPublicKey(self::$rsaKeys['public_rsapss']->contents());
         assert($publicKey instanceof RSA\PublicKey);
 
         self::assertTrue(
@@ -110,6 +151,21 @@ abstract class RsaPssTestCase extends TestCase
     }
 
     #[PHPUnit\Test]
+    public function verifyShouldReturnTrueWhenSignatureIsValidWithPssKey(): void
+    {
+        $payload    = 'testing';
+        $privateKey = PublicKeyLoader::loadPrivateKey(self::$rsaKeys['private_rsapss']->contents());
+        assert($privateKey instanceof RSA\PrivateKey);
+
+        $signature = $privateKey
+            ->withHash($this->signatureAlgorithm())
+            ->withMGFHash($this->signatureAlgorithm())
+            ->sign($payload);
+
+        self::assertTrue($this->algorithm()->verify($signature, $payload, self::$rsaKeys['public_rsapss']));
+    }
+
+    #[PHPUnit\Test]
     public function verifyShouldRaiseAnExceptionWhenKeyIsNotParseable(): void
     {
         $this->expectException(InvalidKeyProvided::class);
@@ -129,5 +185,20 @@ abstract class RsaPssTestCase extends TestCase
         $this->expectExceptionCode(0);
 
         $this->algorithm()->verify('testing', 'testing', self::$ecdsaKeys['public1']);
+    }
+
+    #[PHPUnit\Test]
+    public function validateExistingPsTokenWithPublicKey(): void
+    {
+        $signer      = $this->algorithm();
+        $publicKey   = self::$rsaKeys['token1_public'];
+        $tokenstring = $this->getJwtContents($this->getE2eTokenFilePath());
+
+        $clock = $this->getCurrentClock();
+
+        $facade = new JwtFacade();
+        $token  = $facade->parse($tokenstring, new SignedWith($signer, $publicKey), new LooseValidAt($clock));
+        assertSame($this->algorithmId(), $token->headers()->get('alg'));
+        assertSame('bar', $token->claims()->get('foo'));
     }
 }

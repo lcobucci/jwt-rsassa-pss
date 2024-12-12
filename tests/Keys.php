@@ -26,6 +26,10 @@ trait Keys
             'public'            => Key\InMemory::file(__DIR__ . '/_keys/rsa/public.key'),
             'private_short'     => Key\InMemory::file(__DIR__ . '/_keys/rsa/private_512.key'),
             'public_short'      => Key\InMemory::file(__DIR__ . '/_keys/rsa/public_512.key'),
+            // The RSAPSS keys contain special configuration flags to indicate they are to be used with PSS
+            'private_rsapss'    => Key\InMemory::file(__DIR__ . '/_keys/rsa/private_pss.key'),
+            'public_rsapss'     => Key\InMemory::file(__DIR__ . '/_keys/rsa/public_pss.key'),
+            'token1_public'     => Key\InMemory::file(__DIR__ . '/_tokens/token1.public.key'),
         ];
     }
 

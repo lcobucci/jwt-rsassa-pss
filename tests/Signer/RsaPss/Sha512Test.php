@@ -29,4 +29,9 @@ final class Sha512Test extends RsaPssTestCase
     {
         return 'sha512';
     }
+
+    protected function getE2eTokenFilePath(): string
+    {
+        return __DIR__ . '/../../_tokens/token1_PS512.txt';
+    }
 }
