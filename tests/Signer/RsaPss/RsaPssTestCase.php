@@ -36,7 +36,7 @@ abstract class RsaPssTestCase extends TestCase
 
     abstract protected function getE2eTokenFilePath(): string;
 
-    /** @phpstan-return non-empty-string */
+    /** @return non-empty-string */
     private function getJwtContents(string $filename): string
     {
         $contents = file_get_contents($filename);
