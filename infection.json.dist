@@ -1,0 +1,14 @@
+{
+    "source": {
+        "directories": ["src"]
+    },
+    "timeout": 10,
+    "logs": {
+        "text": "infection.txt"
+    },
+    "mutators": {
+        "@default": true
+    },
+    "minMsi": 100,
+    "minCoveredMsi": 100
+}

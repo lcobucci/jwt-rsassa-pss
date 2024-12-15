@@ -1,0 +1,9 @@
+/tests                                    export-ignore
+/.gitattributes                           export-ignore
+/.github                                  export-ignore
+/.gitignore                               export-ignore
+/*.yml                                    export-ignore
+/*.dist                                   export-ignore
+/composer.lock                            export-ignore
+/Makefile                                 export-ignore
+/.roave-backward-compatibility-check.json export-ignore
