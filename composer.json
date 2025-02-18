@@ -9,7 +9,7 @@
         "JWT"
     ],
     "require": {
-        "php": "~8.2.0 || ~8.3.0 || ~8.4.0",
+        "php": "~8.3.0 || ~8.4.0",
         "lcobucci/jwt": "^5.4.2",
         "phpseclib/phpseclib": "^3.0.42"
     },
@@ -39,9 +39,6 @@
             "infection/extension-installer": true,
             "ocramius/package-versions": true,
             "phpstan/extension-installer": true
-        },
-        "platform": {
-            "php": "8.2.99"
         },
         "preferred-install": "dist",
         "sort-packages": true
