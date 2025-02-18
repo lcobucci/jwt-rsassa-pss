@@ -3,16 +3,12 @@ declare(strict_types=1);
 
 namespace Lcobucci\JWT\Tests\Signer\RsaPss;
 
-use Lcobucci\JWT\Signer\InvalidKeyProvided;
-use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Signer\RsaPss;
 use Lcobucci\JWT\Signer\RsaPss\Sha512;
 use PHPUnit\Framework\Attributes as PHPUnit;
 
 #[PHPUnit\CoversClass(RsaPss::class)]
 #[PHPUnit\CoversClass(Sha512::class)]
-#[PHPUnit\CoversClass(InvalidKeyProvided::class)]
-#[PHPUnit\UsesClass(InMemory::class)]
 final class Sha512Test extends RsaPssTestCase
 {
     protected function algorithm(): RsaPss
