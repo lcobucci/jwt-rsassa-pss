@@ -198,16 +198,16 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "3.0.43",
+            "version": "3.0.45",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "709ec107af3cb2f385b9617be72af8cf62441d02"
+                "reference": "bd81b90d5963c6b9d87de50357585375223f4dd8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/709ec107af3cb2f385b9617be72af8cf62441d02",
-                "reference": "709ec107af3cb2f385b9617be72af8cf62441d02",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/bd81b90d5963c6b9d87de50357585375223f4dd8",
+                "reference": "bd81b90d5963c6b9d87de50357585375223f4dd8",
                 "shasum": ""
             },
             "require": {
@@ -288,7 +288,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpseclib/phpseclib/issues",
-                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.43"
+                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.45"
             },
             "funding": [
                 {
@@ -304,7 +304,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-12-14T21:12:59+00:00"
+            "time": "2025-06-22T22:54:43+00:00"
         },
         {
             "name": "psr/clock",
@@ -963,16 +963,16 @@
         },
         {
             "name": "infection/infection",
-            "version": "0.29.12",
+            "version": "0.29.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/infection/infection.git",
-                "reference": "dfe9cf6e65545881c7d21343c494cc8a1fdbfb80"
+                "reference": "feea2a48a8aeedd3a4d2105167b41a46f0e568a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/infection/infection/zipball/dfe9cf6e65545881c7d21343c494cc8a1fdbfb80",
-                "reference": "dfe9cf6e65545881c7d21343c494cc8a1fdbfb80",
+                "url": "https://api.github.com/repos/infection/infection/zipball/feea2a48a8aeedd3a4d2105167b41a46f0e568a3",
+                "reference": "feea2a48a8aeedd3a4d2105167b41a46f0e568a3",
                 "shasum": ""
             },
             "require": {
@@ -988,7 +988,7 @@
                 "infection/extension-installer": "^0.1.0",
                 "infection/include-interceptor": "^0.2.5",
                 "infection/mutator": "^0.4",
-                "justinrainbow/json-schema": "^5.3",
+                "justinrainbow/json-schema": "^5.3 || ^6.0",
                 "nikic/php-parser": "^5.3",
                 "ondram/ci-detector": "^4.1.0",
                 "php": "^8.2",
@@ -1010,16 +1010,16 @@
             "require-dev": {
                 "ext-simplexml": "*",
                 "fidry/makefile": "^1.0",
-                "helmich/phpunit-json-assert": "^3.0",
-                "phpstan/extension-installer": "^1.1.0",
-                "phpstan/phpstan": "^1.10.15",
-                "phpstan/phpstan-phpunit": "^1.0.0",
-                "phpstan/phpstan-strict-rules": "^1.1.0",
-                "phpstan/phpstan-webmozart-assert": "^1.0.2",
-                "phpunit/phpunit": "^10.5",
-                "rector/rector": "^1.0",
-                "sidz/phpstan-rules": "^0.4",
-                "symfony/yaml": "^6.4 || ^7.0"
+                "phpstan/extension-installer": "^1.4",
+                "phpstan/phpstan": "^2.1",
+                "phpstan/phpstan-phpunit": "^2.0",
+                "phpstan/phpstan-strict-rules": "^2.0",
+                "phpstan/phpstan-webmozart-assert": "^2.0",
+                "phpunit/phpunit": "^11.5",
+                "rector/rector": "^2.0",
+                "sidz/phpstan-rules": "^0.5.1",
+                "symfony/yaml": "^6.4 || ^7.0",
+                "thecodingmachine/phpstan-safe-rule": "^1.4"
             },
             "bin": [
                 "bin/infection"
@@ -1075,7 +1075,7 @@
             ],
             "support": {
                 "issues": "https://github.com/infection/infection/issues",
-                "source": "https://github.com/infection/infection/tree/0.29.12"
+                "source": "https://github.com/infection/infection/tree/0.29.14"
             },
             "funding": [
                 {
@@ -1087,7 +1087,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2025-02-17T18:25:11+00:00"
+            "time": "2025-03-02T18:49:12+00:00"
         },
         {
             "name": "infection/mutator",
