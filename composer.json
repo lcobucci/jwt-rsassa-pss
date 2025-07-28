@@ -14,7 +14,7 @@
         "phpseclib/phpseclib": "^3.0.42"
     },
     "require-dev": {
-        "infection/infection": "^0.30.0",
+        "infection/infection": "^0.31.0",
         "lcobucci/coding-standard": "^11.1",
         "phpstan/extension-installer": "^1.4.3",
         "phpstan/phpstan": "^2.0.3",
