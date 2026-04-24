@@ -15,7 +15,7 @@ use function is_string;
 
 abstract readonly class RsaPss implements Signer
 {
-    private const MINIMUM_KEY_LENGTH = 2048;
+    private const int MINIMUM_KEY_LENGTH = 2048;
 
     final public function sign(string $payload, Key $key): string
     {
