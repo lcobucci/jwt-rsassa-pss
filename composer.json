@@ -11,7 +11,7 @@
     "require": {
         "php": "~8.4.0 || ~8.5.0",
         "lcobucci/jwt": "^5.4.2",
-        "phpseclib/phpseclib": "^3.0.42"
+        "phpseclib/phpseclib": "^4.0.0"
     },
     "require-dev": {
         "infection/infection": "^0.35.0",
