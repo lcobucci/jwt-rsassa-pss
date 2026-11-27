@@ -6,4 +6,5 @@
 /*.dist                                   export-ignore
 /composer.lock                            export-ignore
 /Makefile                                 export-ignore
+/.composer-require-checker.config.json    export-ignore
 /.roave-backward-compatibility-check.json export-ignore

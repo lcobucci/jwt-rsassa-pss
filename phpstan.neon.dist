@@ -3,3 +3,11 @@ parameters:
     paths:
         - src
         - tests
+    ignoreErrors:
+        # The padding argument was added in PHP 8.5, and RsaPss only passes it there
+        -
+            message: '#^Function openssl_(sign|verify) invoked with 5 parameters, 3\-4 required\.$#'
+            identifier: arguments.count
+            path: src/Signer/RsaPss.php
+            count: 2
+            reportUnmatched: false

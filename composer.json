@@ -10,6 +10,7 @@
     ],
     "require": {
         "php": "~8.4.0 || ~8.5.0",
+        "ext-openssl": "*",
         "lcobucci/jwt": "^5.4.2",
         "phpseclib/phpseclib": "^3.0.42"
     },

@@ -1,0 +1,5 @@
+{
+  "symbol-whitelist" : [
+    "OPENSSL_PKCS1_PSS_PADDING"
+  ]
+}

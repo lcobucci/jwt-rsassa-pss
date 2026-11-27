@@ -17,7 +17,12 @@ If however you are required to consume a token signed with a PS algorithm, you h
 
 ## Implementation details
 
-This library offloads the entire handling of cryptographic operations onto phpseclib/phpseclib V3, which is added as a dependency.
+On PHP 8.5+ with ext-openssl linked against OpenSSL 3.1+, signatures are created and verified by ext-openssl directly.
+OpenSSL 3.1 is where the salt length of a PSS signature defaults to the digest length, as [RFC 7518] requires.
+
+[RFC 7518]: https://www.rfc-editor.org/rfc/rfc7518#section-3.5
+
+Everywhere else, and for keys that are restricted to RSASSA-PSS (which ext-openssl refuses to use with a padding), this library offloads the cryptographic operations onto phpseclib/phpseclib V3, which is added as a dependency.
 This dependency utilizes some PHP extensions that will speed up execution times, and fall back to native PHP implementations otherwise:
 
 - ext-gmp should be favoured as it greatly speeds up everything.

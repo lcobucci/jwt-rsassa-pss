@@ -18,11 +18,23 @@ use PHPUnit\Framework\TestCase;
 use Psr\Clock\ClockInterface;
 
 use function assert;
+use function chr;
 use function file_get_contents;
+use function hash;
+use function is_string;
+use function openssl_error_string;
+use function openssl_public_decrypt;
+use function ord;
+use function pack;
 use function PHPUnit\Framework\assertIsString;
 use function PHPUnit\Framework\assertNotSame;
 use function PHPUnit\Framework\assertSame;
+use function strlen;
+use function strpos;
+use function substr;
 use function trim;
+
+use const OPENSSL_NO_PADDING;
 
 abstract class RsaPssTestCase extends TestCase
 {
@@ -104,6 +116,27 @@ abstract class RsaPssTestCase extends TestCase
     }
 
     #[PHPUnit\Test]
+    public function signShouldUseASaltAsLongAsTheHashOutput(): void
+    {
+        $signature = $this->algorithm()->sign('testing', self::$rsaKeys['private']);
+
+        self::assertSame(strlen(hash($this->signatureAlgorithm(), '', true)), $this->saltLength($signature));
+    }
+
+    #[PHPUnit\Test]
+    public function signShouldNotLeaveOpenSSLErrorsBehindWhenKeyIsNotParseable(): void
+    {
+        self::clearOpenSSLErrors();
+
+        try {
+            $this->algorithm()->sign('testing', InMemory::plainText('blablabla'));
+        } catch (InvalidKeyProvided) {
+        }
+
+        self::assertFalse(openssl_error_string());
+    }
+
+    #[PHPUnit\Test]
     public function signShouldRaiseAnExceptionWhenKeyIsNotParseable(): void
     {
         $this->expectException(InvalidKeyProvided::class);
@@ -166,6 +199,38 @@ abstract class RsaPssTestCase extends TestCase
     }
 
     #[PHPUnit\Test]
+    public function verifyShouldReturnFalseWhenSignatureIsInvalid(): void
+    {
+        $signature = $this->algorithm()->sign('testing', self::$rsaKeys['private']);
+
+        self::assertFalse($this->algorithm()->verify($signature, 'tampered', self::$rsaKeys['public']));
+        self::assertFalse($this->algorithm()->verify('not a signature', 'testing', self::$rsaKeys['public']));
+    }
+
+    #[PHPUnit\Test]
+    public function verifyShouldNotLeaveOpenSSLErrorsBehindWhenSignatureIsInvalid(): void
+    {
+        self::clearOpenSSLErrors();
+
+        $this->algorithm()->verify('not a signature', 'testing', self::$rsaKeys['public']);
+
+        self::assertFalse(openssl_error_string());
+    }
+
+    #[PHPUnit\Test]
+    public function verifyShouldNotLeaveOpenSSLErrorsBehindWhenKeyIsNotParseable(): void
+    {
+        self::clearOpenSSLErrors();
+
+        try {
+            $this->algorithm()->verify('testing', 'testing', InMemory::plainText('blablabla'));
+        } catch (InvalidKeyProvided) {
+        }
+
+        self::assertFalse(openssl_error_string());
+    }
+
+    #[PHPUnit\Test]
     public function verifyShouldRaiseAnExceptionWhenKeyIsNotParseable(): void
     {
         $this->expectException(InvalidKeyProvided::class);
@@ -200,5 +265,42 @@ abstract class RsaPssTestCase extends TestCase
         $token  = $facade->parse($tokenstring, new SignedWith($signer, $publicKey), new LooseValidAt($clock));
         assertSame($this->algorithmId(), $token->headers()->get('alg'));
         assertSame('bar', $token->claims()->get('foo'));
+    }
+
+    private static function clearOpenSSLErrors(): void
+    {
+        do {
+            $message = openssl_error_string();
+        } while ($message !== false);
+    }
+
+    /**
+     * Recovers the salt length from a signature made with `tests/_keys/rsa/private.key`
+     *
+     * @see https://www.rfc-editor.org/rfc/rfc8017#section-9.1.2
+     */
+    private function saltLength(string $signature): int
+    {
+        $encoded = '';
+        openssl_public_decrypt($signature, $encoded, self::$rsaKeys['public']->contents(), OPENSSL_NO_PADDING);
+        assert(is_string($encoded));
+
+        $hashLength = strlen(hash($this->signatureAlgorithm(), '', true));
+        $maskedDb   = substr($encoded, 0, -$hashLength - 1);
+        $hash       = substr($encoded, -$hashLength - 1, $hashLength);
+
+        $mask = '';
+
+        for ($counter = 0; strlen($mask) < strlen($maskedDb); ++$counter) {
+            $mask .= hash($this->signatureAlgorithm(), $hash . pack('N', $counter), true);
+        }
+
+        $db    = $maskedDb ^ substr($mask, 0, strlen($maskedDb));
+        $db[0] = chr(ord($db[0]) & 0x7f);
+
+        $separator = strpos($db, "\x01");
+        assert($separator !== false);
+
+        return strlen($db) - $separator - 1;
     }
 }
